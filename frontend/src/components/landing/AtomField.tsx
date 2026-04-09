@@ -100,6 +100,11 @@ function Atom({ data }: { data: AtomData }) {
     });
   });
 
+  const orbitLines = useMemo(
+    () => orbitGeos.map((geo, i) => new THREE.Line(geo, oMats[i])),
+    [orbitGeos, oMats]
+  );
+
   return (
     <group
       ref={groupRef}
@@ -110,10 +115,10 @@ function Atom({ data }: { data: AtomData }) {
       <mesh geometry={nucleusGeo} material={nMat} />
 
       {/* Órbitas + elétrons */}
-      {data.orbits.map((orbit, i) => (
+      {data.orbits.map((_orbit, i) => (
         <group key={i}>
           {/* Linha da órbita */}
-          <line geometry={orbitGeos[i]} material={oMats[i]} />
+          <primitive object={orbitLines[i]} />
           {/* Elétron */}
           <mesh
             ref={el => { if (el) electronRefs.current[i] = el; }}
