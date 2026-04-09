@@ -34,8 +34,11 @@ app.use('/api/session', sessionRouter);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
+// Only start listening when running directly (local dev), not when imported as a module (Vercel serverless)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Backend running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;
